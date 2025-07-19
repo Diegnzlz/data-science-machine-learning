@@ -1,0 +1,4 @@
+cafe,10
+pan,5
+azucar,7
+sal,45

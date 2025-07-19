@@ -65,7 +65,7 @@ def modificar_cantidad():
 
 
 def guardar_en_archivo():
-    with open("inventario.txt", "w") as f:
+    with open("fase-1-fundamentos-python/dia1-variables-estructuras/inventario.txt", "w") as f:
         for prod, cant in inventario.items():
             f.write(f"{prod},{cant}\n")
     print("Inventario guardado en 'inventario.txt'.")
