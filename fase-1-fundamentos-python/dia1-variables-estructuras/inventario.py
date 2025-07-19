@@ -45,9 +45,7 @@ def modificar_producto(inventario, fruta, nueva_cantidad):
     if fruta in inventario:
         inventario[fruta] = nueva_cantidad
         print(f"{fruta} ha sido modificado a {nueva_cantidad} unidades.")
-    elif fruta not in inventario and nueva_cantidad <= 0:
-        print("La cantidad debe ser mayor que cero para modificar un producto.")
-    elif fruta in inventario and nueva_cantidad <= 3:
+    elif nueva_cantidad <= 3:
         print("el inventario no puede tener menos de 3 unidades de un producto.")
     else:
         print(f"{fruta} no está en el inventario.")
@@ -71,15 +69,31 @@ def main():
             mostrar_inventario(inventario)
         elif opcion == "2":
             fruta = input("Ingrese el nombre de la fruta a agregar: ")
-            cantidad = int(input("Ingrese la cantidad a agregar: "))
+            try:
+                cantidad = int(input("Ingrese la cantidad a agregar: "))
+            except ValueError:
+                print("Por favor, ingrese un número válido para la cantidad.")
+                continue
             agregar_producto(inventario, fruta, cantidad)
         elif opcion == "3":
-            fruta = input("Ingrese el nombre de la fruta a eliminar: ")
-            cantidad = int(input("Ingrese la cantidad a eliminar: "))
+            try:
+                fruta = input("Ingrese el nombre de la fruta a eliminar: ")
+            except ValueError:
+                print("Por favor, ingrese un nombre válido para la fruta.")
+                continue
+            try:
+                cantidad = int(input("Ingrese la cantidad a eliminar: "))
+            except ValueError:
+                print("Por favor, ingrese un número válido para la cantidad.")
+                continue
             eliminar_producto(inventario, fruta, cantidad)
         elif opcion == "4":
             fruta = input("Ingrese el nombre de la fruta a modificar: ")
-            nueva_cantidad = int(input("Ingrese la nueva cantidad: "))
+            try:
+                nueva_cantidad = int(input("Ingrese la nueva cantidad: "))
+            except ValueError:
+                print("Por favor, ingrese un número válido para la cantidad.")
+                continue
             modificar_producto(inventario, fruta, nueva_cantidad)
         elif opcion == "5":
             print("Saliendo del programa.")
@@ -90,3 +104,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+with open("inventario.txt", "w") as f:
+    for fruta, cant in inventario.items():
+        f.write(f"{fruta},{cant}\n")
