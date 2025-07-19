@@ -1,109 +1,101 @@
+# inventario.py - Versión mejorada
+
 inventario = {
-    "manzanas": 50,
-    "naranjas": 30,
-    "platanos": 20,
-    "peras": 15,
-    "uvas": 25
+    "cafe": 10,
+    "pan": 5,
+    "azucar": 7
 }
 
 
-def mostrar_inventario(inventario):
-    print("Inventario actual:")
-    for fruta, cantidad in inventario.items():
-        print(f"{fruta}: {cantidad} unidades")
-
-
-def agregar_producto(inventario, fruta, cantidad):
-    if fruta in inventario:
-        inventario[fruta] += cantidad
-    elif fruta not in inventario and cantidad <= 0:
-        print("La cantidad debe ser mayor que cero para agregar un nuevo producto.")
+def mostrar_inventario():
+    if not inventario:
+        print("Inventario vacío.")
         return
+    print("\n*** Inventario Actual ***")
+    for producto, cant in inventario.items():
+        print(f"- {producto.capitalize()}: {cant}")
+    print()
+
+
+def agregar_producto():
+    nombre = input("Nombre del producto a agregar: ").strip().lower()
+    if not nombre:
+        print("Nombre no puede estar vacío.")
+        return
+    try:
+        cantidad = int(input("Cantidad a agregar: "))
+        if cantidad <= 0:
+            raise ValueError
+    except ValueError:
+        print("La cantidad debe ser un número entero mayor que cero.")
+        return
+
+    inventario[nombre] = inventario.get(nombre, 0) + cantidad
+    print(
+        f"{cantidad} unidad(es) agregada(s) a '{nombre}'. Nueva cantidad: {inventario[nombre]}")
+
+
+def eliminar_producto():
+    nombre = input("Nombre del producto a eliminar: ").strip().lower()
+    if inventario.pop(nombre, None) is not None:
+        print(f"Producto '{nombre}' eliminado.")
     else:
-        inventario[fruta] = cantidad
-    print(f"Agregado {cantidad} unidades de {fruta} al inventario.")
+        print(f"No se encontró '{nombre}' en el inventario.")
 
 
-def eliminar_producto(inventario, fruta, cantidad):
-    if fruta in inventario:
-        if inventario[fruta] >= cantidad:
-            inventario[fruta] -= cantidad
-            print(f"Eliminado {cantidad} unidades de {fruta} del inventario.")
-            if inventario[fruta] == 0:
-                del inventario[fruta]
-                print(f"{fruta} ha sido eliminado del inventario.")
-        elif inventario[fruta] < cantidad:
-            print(
-                f"No se puede eliminar {cantidad} unidades de {fruta}. Solo hay {inventario[fruta]} unidades disponibles.")
-        else:
-            print(f"No hay suficientes unidades de {fruta} para eliminar.")
+def modificar_cantidad():
+    nombre = input("Nombre del producto a modificar: ").strip().lower()
+    if nombre not in inventario:
+        print(f"'{nombre}' no está en el inventario.")
+        return
+
+    try:
+        nueva = int(input(f"Nueva cantidad para '{nombre}': "))
+    except ValueError:
+        print("La cantidad debe ser un número entero.")
+        return
+
+    if nueva <= 0:
+        print("La cantidad debe ser mayor que cero.")
     else:
-        print(f"{fruta} no está en el inventario.")
+        inventario[nombre] = nueva
+        print(f"Nueva cantidad de '{nombre}': {nueva}")
+        if nueva < 3:
+            print("⚠️ Aviso: cantidad baja, considera reponer.")
 
 
-def modificar_producto(inventario, fruta, nueva_cantidad):
-    if fruta in inventario:
-        inventario[fruta] = nueva_cantidad
-        print(f"{fruta} ha sido modificado a {nueva_cantidad} unidades.")
-    elif nueva_cantidad <= 3:
-        print("el inventario no puede tener menos de 3 unidades de un producto.")
-    else:
-        print(f"{fruta} no está en el inventario.")
+def guardar_en_archivo():
+    with open("inventario.txt", "w") as f:
+        for prod, cant in inventario.items():
+            f.write(f"{prod},{cant}\n")
+    print("Inventario guardado en 'inventario.txt'.")
 
 
 def menu():
-    print("\nOpciones del inventario:")
-    print("1. Mostrar inventario")
-    print("2. Agregar producto")
-    print("3. Eliminar producto")
-    print("4. Modificar producto")
-    print("5. Salir")
+    opciones = {
+        "1": ("Ver inventario", mostrar_inventario),
+        "2": ("Agregar producto", agregar_producto),
+        "3": ("Eliminar producto", eliminar_producto),
+        "4": ("Modificar cantidad", modificar_cantidad),
+        "5": ("Guardar inventario en archivo", guardar_en_archivo),
+        "6": ("Salir", None)
+    }
 
-
-def main():
     while True:
-        menu()
-        opcion = input("Seleccione una opción: ")
+        print("\n*** MENÚ INVENTARIO ***")
+        for k, (desc, _) in opciones.items():
+            print(f"{k}. {desc}")
+        elec = input("Elige una opción: ").strip()
 
-        if opcion == "1":
-            mostrar_inventario(inventario)
-        elif opcion == "2":
-            fruta = input("Ingrese el nombre de la fruta a agregar: ")
-            try:
-                cantidad = int(input("Ingrese la cantidad a agregar: "))
-            except ValueError:
-                print("Por favor, ingrese un número válido para la cantidad.")
-                continue
-            agregar_producto(inventario, fruta, cantidad)
-        elif opcion == "3":
-            try:
-                fruta = input("Ingrese el nombre de la fruta a eliminar: ")
-            except ValueError:
-                print("Por favor, ingrese un nombre válido para la fruta.")
-                continue
-            try:
-                cantidad = int(input("Ingrese la cantidad a eliminar: "))
-            except ValueError:
-                print("Por favor, ingrese un número válido para la cantidad.")
-                continue
-            eliminar_producto(inventario, fruta, cantidad)
-        elif opcion == "4":
-            fruta = input("Ingrese el nombre de la fruta a modificar: ")
-            try:
-                nueva_cantidad = int(input("Ingrese la nueva cantidad: "))
-            except ValueError:
-                print("Por favor, ingrese un número válido para la cantidad.")
-                continue
-            modificar_producto(inventario, fruta, nueva_cantidad)
-        elif opcion == "5":
-            print("Saliendo del programa.")
+        if elec == "6":
+            print("Saliendo...")
             break
+        accion = opciones.get(elec)
+        if accion:
+            accion[1]()
         else:
-            print("Opción no válida. Intente nuevamente.")
+            print("Opción inválida. Intenta de nuevo.")
 
 
 if __name__ == "__main__":
-    main()
-with open("inventario.txt", "w") as f:
-    for fruta, cant in inventario.items():
-        f.write(f"{fruta},{cant}\n")
+    menu()
