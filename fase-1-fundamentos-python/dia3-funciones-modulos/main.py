@@ -11,8 +11,12 @@ def main():
     opcion = input("Selecciona una opción (1-4): ")
 
     if opcion in ['1', '2', '3', '4']:
-        num1 = float(input("Ingresa el primer número: "))
-        num2 = float(input("Ingresa el segundo número: "))
+        try:
+            num1 = float(input("Ingresa el primer número: "))
+            num2 = float(input("Ingresa el segundo número: "))
+        except ValueError:
+            print("Error: Por favor, ingresa números válidos.")
+            return
 
         if opcion == '1':
             resultado = operaciones.sumar(num1, num2)
