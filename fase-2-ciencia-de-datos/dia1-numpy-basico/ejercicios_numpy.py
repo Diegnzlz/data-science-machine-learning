@@ -1,21 +1,5 @@
 import numpy as np
 
-# | Comando                   | ¿Qué hace?                            | Ejemplo                 |
-# | ------------------------- | ------------------------------------- | ----------------------- |
-# | `np.array([1,2,3])`       | Crea un array                         | `a = np.array([1,2,3])` |
-# | `np.arange(0, 10, 2)`     | Rango de números                      | `np.arange(0,10,2)`     |
-# | `np.zeros((2,3))`         | Array de ceros                        | `np.zeros((2,3))`       |
-# | `np.ones((3,2))`          | Array de unos                         | `np.ones((3,2))`        |
-# | `np.shape`                | Tamaño del array                      | `a.shape`               |
-# | `a[0]`, `a[1:3]`          | Indexar/slicear arrays                |                         |
-# | `np.sum(a)`, `np.mean(a)` | Suma, media de los valores            |                         |
-# | `np.max(a)`, `np.min(a)`  | Máximo, mínimo                        |                         |
-# | `a.T`                     | Transponer (cambiar filas x columnas) |                         |
-# | `np.random.rand(3,2)`     | Array aleatorio (valores 0 a 1)       |                         |
-# | `a.reshape((n, m))`       | Cambiar forma                         |                         |
-# | `a * 2`, `a + 3`          | Operaciones vectorizadas              |                         |
-
-
 # ejercicios básicos de numpy
 a = np.array([2, 4, 6, 8])
 print("Array:", a)
