@@ -8,25 +8,26 @@ print("Media:", np.mean(a))
 print("Máximo:", np.max(a))
 print("Mínimo:", np.min(a))
 
-
+# Crear arrays especiales
 ceros = np.zeros((3, 2))
 unos = np.ones((2, 3))
 aleatorios = np.random.rand(2, 4)
-
-
 print("Ceros:\n", ceros)
 print("Unos:\n", unos)
 print("Aleatorios:\n", aleatorios)
 
+# Slicing y operaciones vectorizadas
 b = np.arange(10)  # [0 1 2 ... 9]
 print("b[2:7]:", b[2:7])
 print("b * 3:", b * 3)
 print("b + 1:", b + 1)
 
+# Reshape y transposición
 m = np.arange(6).reshape((2, 3))
 print("Matriz:\n", m)
 print("Transpuesta:\n", m.T)
 
+# operaciones con matrices
 x = np.array([1, 2, 3])
 y = np.array([10,])
 print("x:", x)
